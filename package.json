@@ -1,0 +1,25 @@
+{
+  "name": "csslink2style",
+  "version": "1.0.0",
+  "description": "First gulp plugin for replace link to css external into style",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "csslink2style",
+    "gulp-plugin",
+    "gulpplugin"
+  ],
+  "author": "Faber",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-dest": "^0.2.3",
+    "gulp-util": "^3.0.8",
+    "jquery": "^3.3.1",
+    "jsdom": "^11.6.1",
+    "map-stream": "0.0.7",
+    "read-file": "^0.2.0"
+  }
+}
