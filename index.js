@@ -13,9 +13,17 @@ var jsdom = require("jsdom");
 var read=require("read-file");
 var myMap= new Map();
 
-function readAll(filePaths){
+function readAll(filePaths,options){
     //do Operations on single File
-    console.log("1- "+ filePaths);
+    //console.log("1- "+ filePaths);
+
+    // get start root for css file
+    var startDir=__dirname;
+    if(options && options.dirname){
+        startDir+="/"+options.dirname;
+    }
+
+
     var options={includeNodeLocations:true};
     //TODO search  all link element with rel="stylesheet" and  type="text/css"
     var reader = JSDOM.fromFile(String(filePaths), options).then(dom => {
@@ -25,14 +33,14 @@ function readAll(filePaths){
         var $ = require('jquery')(window);
         //extract all link with href *.css and rel equal to stylesheet
         var links = $('link[href*=".css"][rel="stylesheet"]');
-
+        console.log(__dirname)
 
         $('link[href*=".css"][rel="stylesheet"]').each(function( index ) {
             console.log( index + ":" + $(this).attr('href') );
 
             var tag = $(this)[0].outerHTML;
-            console.log("replace this "+tag+" with this content "+"H:/Data/Node/CssLink2Style/test/"+$(this).attr('href'));
-            var content = read.sync("H:/Data/Node/CssLink2Style/test/"+$(this).attr('href'),{encoding: 'utf8',normalize:'true'});
+            console.log("replace this "+tag+" with this content "+startDir+$(this).attr('href'));
+            var content = read.sync(startDir+$(this).attr('href'),{encoding: 'utf8',normalize:'true'});
             //console.log(content);
             myMap.set(tag,"<style>"+content+"</style>");
 
@@ -52,11 +60,11 @@ function readAll(filePaths){
 }
 
 
-var cssLink2Style = function() {
+var cssLink2Style = function(options) {
 
     return map(function(file,cb) {
 
-        var currentTask = readAll([file.path]);
+        var currentTask = readAll([file.path],options);
 
         currentTask.then(()=>{
             console.log(myMap.size+"  file "+file.path);
